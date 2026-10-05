@@ -1,66 +1,80 @@
-# 🌋 Vulkan Starter App
+# Vulkan Labs
 
-## Getting started
+Лабораторные работы по курсу «Компьютерная графика».
 
-You need C++ compiler, Vulkan SDK and CMake installed before you can build this project.
+Стартовый код: [vulkan-starter-app](https://github.com/vladeemerr/vulkan-starter-app)
 
-This project uses C++20 standard and thus requires either of those compilers:
-- GCC 10.X
-- Clang 10
-- Microsoft Visual Studio 2019
+## Как посмотреть лабы
 
-This is officially tested on *Windows* and *GNU/Linux platforms*, no *macOS* support yet.
-If you have a working macOS solution of this code, consider submitting a PR so others
-can build this example code without a hassle!
-
-<ins>**1. Downloading the repository**</ins>
-
-Start by cloning the repository with `git clone --depth 1 https://github.com/vladeemerr/vulkan-starter-app`
-
-This repository does not contain any submodules, it utilizes CMake's `FetchContent` feature instead.
-
-<ins>**2. Configuring the project**</ins>
-
-Run either one of the CMake lines to download dependencies and configure the project:
+Каждая лаба — в отдельной ветке.
 
 ```bash
-cmake --preset debug       # for GNU/Linux (GCC/Clang)
-cmake --preset msvc-debug  # for Windows (Visual Studio 2019)
-cmake --preset mingw-debug # for Windows (MinGW)
+git clone https://github.com/ch0n26/vulkan-labs.git
+cd vulkan-labs
+git checkout lab1
 ```
 
-If you wish to build in `release` mode, change `debug` to `release`.
+## Как собрать и запустить
 
-If changes are made (added/removed files), or if you want to regenerate project files, rerun the command above.
+### Требования
 
-<ins>**3. Building**</ins>
+- **Vulkan SDK** — [скачать](https://vulkan.lunarg.com/sdk/home)
+- **CMake** 3.20+
+- **Visual Studio 2022** с компонентом «Desktop development with C++» (Windows)
+или **GCC 10+ / Clang 10+** (Linux)
 
-To build the project, use the line below. You are most likely using `debug` preset, so
-the directory that will eventually contain your build files is named `build-debug`.
+Проверь, что `glslc` доступен из терминала:
 
-Likewise for `release` that directory will be named `build-release`
-
-Run one those commands, depending on which preset you chose:
-
-```bash
-cmake --build build-debug --parallel # for debug
-cmake --build build-release --parallel # for release
+```
+glslc --version
 ```
 
-### Running
+Если команда не найдена — переустанови Vulkan SDK с галочкой «Add to PATH», потом перезапусти терминал.
 
-`build-*` directory will contain the executable in one of the subdirectories after successful build.
+### Сборка на Windows
 
-For `msvc-{debug|release}` builds output subdirectory is set to `Debug` or `Release` respectively.
-For other configurations output subdirectory is set to `vulkan-starter-app`.
+Из корня проекта (там, где `CMakeLists.txt`):
 
-**Make sure your working directory is set to the project root!**
-Project root is where this README file resides. Otherwise, the
-code responsible for loading shaders or other resources from files will fail,
-because relative paths are used.
+```
+cmake --preset msvc-debug
+cmake --build build-debug --parallel
+```
 
-### Compiling shaders
+### Сборка на Linux
 
-`CMakeLists.txt` has a build recipe for compiling shader files
-along with an application. Look for a comment in this file to see
-how to compile your shaders.
+```
+cmake --preset debug
+cmake --build build-debug --parallel
+```
+
+### Запуск
+
+**Важно:** запускать **из корня проекта** — приложение использует относительные пути к шейдерам. Если запустить двойным кликом из проводника, приложение не найдёт `.spv` файлы и упадёт.
+
+**Windows:**
+
+```
+.\build-debug\Debug\vulkan-starter-app.exe
+```
+
+**Linux:**
+
+```
+./build-debug/vulkan-starter-app
+```
+
+### После переключения на другую ветку
+
+Файлы на диске меняются, поэтому надо **пересобрать**:
+
+```
+git checkout lab2
+cmake --build build-debug --parallel
+.\build-debug\Debug\vulkan-starter-app.exe
+```
+
+`cmake --preset` можно пропустить, если `CMakeLists.txt` не менялся.
+
+# Автор
+
+Нгуен Шон, группа М8О-305БВ-24
