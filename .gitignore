@@ -20,6 +20,7 @@ _deps/
 *.ilk
 *.obj
 Thumbs.db
+imgui.ini
 Desktop.ini
 .DS_Store
 .idea/
